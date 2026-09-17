@@ -44,17 +44,6 @@ if len(sys.argv) > 1 and sys.argv[1].strip() != "":
 
 
 # --- The report ------------------------------------------------------------------
-#
-# Fill in each TODO below. This first report names the exact function to call and
-# the exact variable to store it in; the Marketing report will describe the steps
-# and leave the calls to you; the Operations report gives you neither.
-
-# TODO: import what this report needs from the package. Four names, all of them
-#       listed in the steps below. Put the import at the TOP of the file, under
-#       `import sys` — this comment sits here only so you can see what to import.
-#
-#       from sales_pipeline import (...)
-
 
 print("=== FINANCE: Daily Sales Detail ===")
 print()
