@@ -4,3 +4,38 @@ See reflection.md for what makes a good reflection — be specific, use the
 terminology from this assignment (package, module, ETL, coercion, public API,
 relative import, accumulator, group by, unit vs. integration test), and make it
 actionable.
+
+This assignment made the case for building a package instead of a script. I liked 
+how sales_pipeline split responsibilities across modules: extract.py just hands 
+back raw, messy rows and does nothing else, transform.py does all the cleaning and 
+math, and display.py is the only place allowed to print or format a number. Once I 
+understood that split, writing main_daily_report.py from scratch was fast — I didn't 
+need new logic, just a new arrangement of functions that already existed.
+
+The coercion functions (clean_currency, clean_quantity) taught me the "coerce and 
+carry on" idea: catching a ValueError and returning 0.0/0 instead of letting one 
+bad row ("N/A", "one") crash a whole report. I hadn't thought about try/except as a
+way to make a function safe for messy real-world input before — I'd mostly used it 
+to avoid crashing my own test code.
+
+summarize_by_item was the hardest part. I understood the idea of a group-by conceptually, 
+but writing the accumulator pattern by hand — a dictionary keyed by item name, checked 
+with if item not in totals before I could += into it — took me a couple of tries. My 
+first attempt put the += inside that same if, so every item after the first row just 
+stayed at zero. Stepping through it with the debugger, watching totals in the VARIABLES 
+panel after each row, is what showed me the bug.
+
+The relative imports in __init__.py (from .transform import ...) were new syntax for me. 
+I understand what the leading dot means now (this package, not a top-level module), but 
+I want more practice recognizing when __init__.py's import is missing versus when the bug 
+is actually in the function itself — early on, a missing export made every single test 
+disappear instead of just failing, and it took me a minute to realize that was an 
+ImportError, not 24 real bugs.
+
+I also now see the difference between unit tests and integration tests more concretely: 
+the unit tests told me exactly which function was wrong, while the integration tests told 
+me the reports were wired correctly but didn't catch that summarize_by_day was sorting in 
+the wrong direction until I read the actual failure output. Next, I want to practice 
+writing my own accumulator-style function from a blank file, without the docstring's "how 
+to build it" section to lean on.
+
